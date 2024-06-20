@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import '../styles/login.css';
 
 export function Login() {
@@ -44,8 +45,8 @@ export function Login() {
         {error && <div className="alert alert-danger">{error}</div>}
 
         <div className="auth-switcher m-5 mx-auto">
-          <div className="switch-button switch-button-active text-light">Login</div>
-          <div className="switch-button text-light">Register</div>
+          <Link to="/login" className="switch-button switch-button-active text-light">Login</Link>
+          <Link to="/register" className="switch-button text-light">Register</Link>
         </div>
 
         <div className="form-group">

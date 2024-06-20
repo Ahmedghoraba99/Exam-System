@@ -3,6 +3,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import {ExamList} from './components/ExamList';
 import { Login } from './components/Login';
+import { Register } from './components/register';
 // import ExamPage from './components/ExamPage';
 
 
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route path="/exams" element={<ExamList />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register/>} />
         {/* <Route path="/exams/:id" element={<ExamPage />} /> */}
       </Routes>
     </Router>

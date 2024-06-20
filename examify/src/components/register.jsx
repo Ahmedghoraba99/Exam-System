@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { Link } from 'react-router-dom';
 
 export function Register() {
   const [name, setName] = useState('');
@@ -53,6 +54,11 @@ export function Register() {
     <div className="container mt-5">
       <form onSubmit={handleRegister} className="mx-auto p-5" style={{ width: '600px' }}>
         <h1 className="h3 mb-3 text-center">Register</h1>
+
+        <div className="auth-switcher m-5 mx-auto">
+          <Link to="/login" className="switch-button switch-button-active text-light">Login</Link>
+          <Link to="/register" className="switch-button text-light">Register</Link>
+        </div>
 
         {error && <div className="alert alert-danger">{error}</div>}
         {success && <div className="alert alert-success">{success}</div>}

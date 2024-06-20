@@ -1,0 +1,45 @@
+/* examList.css */
+
+.exam-list-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .exam-list-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .exam-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .exam-item {
+    margin-bottom: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow for each item */
+    padding: 15px;
+    border-radius: 5px; /* Rounded corners */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transition effects */
+  }
+  
+  .exam-item:hover {
+    transform: translateY(-5px); /* Move item up on hover */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+  }
+  
+  .exam-link {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+  }
+  
+  .exam-link:hover {
+    color: #0056b3;
+  }
+  

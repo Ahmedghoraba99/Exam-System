@@ -24,6 +24,8 @@ export function Login() {
 
       // Save token to local storage
       localStorage.setItem('token', response.data.token); 
+      localStorage.setItem('id', response.data.userId); 
+      console.log(response.data.userId);
 
       // Redirect to another page or update state to indicate successful login
       setLoading(false);

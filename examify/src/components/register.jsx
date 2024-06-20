@@ -56,8 +56,8 @@ export function Register() {
         <h1 className="h3 mb-3 text-center">Register</h1>
 
         <div className="auth-switcher m-5 mx-auto">
-          <Link to="/login" className="switch-button switch-button-active text-light">Login</Link>
-          <Link to="/register" className="switch-button text-light">Register</Link>
+          <Link to="/login" className="switch-button  text-light">Login</Link>
+          <Link to="/register" className="switch-button switch-button-active text-light">Register</Link>
         </div>
 
         {error && <div className="alert alert-danger">{error}</div>}
@@ -67,7 +67,7 @@ export function Register() {
           <label htmlFor="name">Name</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control mb-3"
             id="name"
             placeholder="Enter name"
             value={name}
@@ -80,7 +80,7 @@ export function Register() {
           <label htmlFor="email">Email address</label>
           <input
             type="email"
-            className="form-control"
+            className="form-control mb-3"
             id="email"
             placeholder="Enter email"
             value={email}
@@ -93,7 +93,7 @@ export function Register() {
           <label htmlFor="password">Password</label>
           <input
             type="password"
-            className="form-control"
+            className="form-control mb-3"
             id="password"
             placeholder="Password"
             value={password}
@@ -106,7 +106,7 @@ export function Register() {
           <label htmlFor="confirmPassword">Confirm Password</label>
           <input
             type="password"
-            className="form-control"
+            className="form-control mb-3"
             id="confirmPassword"
             placeholder="Confirm Password"
             value={confirmPassword}

@@ -29,7 +29,7 @@ export function Login() {
 
       // Redirect to another page or update state to indicate successful login
       setLoading(false);
-      window.location.href = '/exams'; 
+      window.location.href = '/home'; 
 
     } catch (err) {
       console.error('Login error:', err);

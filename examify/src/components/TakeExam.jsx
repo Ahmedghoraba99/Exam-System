@@ -5,22 +5,23 @@ import axiosInstance from '../api/axios';
 export const TakeExam = () => {
   const { examId } = useParams();
 
-  // State variables
   const [exam, setExam] = useState(null);
   const [answers, setAnswers] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [score, setScore] = useState(null);
   const [userId, setUserId] = useState(null);
-  const [submitted, setSubmitted] = useState(false); // Track submission state
+  const [submitted, setSubmitted] = useState(false); 
+  const [timeLeft, setTimeLeft] = useState(3600); 
+  const [timerActive, setTimerActive] = useState(false);
 
-  // Fetch exam details on component mount
   useEffect(() => {
     const fetchExam = async () => {
       try {
         const response = await axiosInstance.get(`/exams/${examId}`);
         setExam(response.data);
         setLoading(false);
+        setTimerActive(true); 
       } catch (err) {
         console.error('Error fetching exam:', err);
         setError('Failed to fetch exam. Please try again later.');
@@ -31,7 +32,6 @@ export const TakeExam = () => {
     fetchExam();
   }, [examId]);
 
-  // Fetch user ID from localStorage on component mount
   useEffect(() => {
     const storedUserId = localStorage.getItem('id');
     if (storedUserId) {
@@ -39,7 +39,22 @@ export const TakeExam = () => {
     }
   }, []);
 
-  // Handle input change for answers
+  useEffect(() => {
+    if (timerActive && timeLeft > 0) {
+      const intervalId = setInterval(() => {
+        setTimeLeft((prevTime) => {
+          if (prevTime <= 1) {
+            clearInterval(intervalId);
+            handleSubmit(); 
+          }
+          return prevTime - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(intervalId);
+    }
+  },);
+
   const handleChange = (questionId, answer) => {
     setAnswers({
       ...answers,
@@ -47,9 +62,8 @@ export const TakeExam = () => {
     });
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     try {
       const userScore = calculateScore();
       setScore(userScore);
@@ -60,19 +74,17 @@ export const TakeExam = () => {
         score: userScore,
       };
 
-      // Submit exam results
       const response = await axiosInstance.post('/results/submit', resultData);
       console.log('Exam submitted:', response.data);
 
-      // Update submitted state to true
       setSubmitted(true);
+      setTimerActive(false); 
     } catch (err) {
       console.error('Error submitting exam:', err);
       setError('Failed to submit exam. Please try again later.');
     }
   };
 
-  // Calculate user score based on answers
   const calculateScore = () => {
     let correctAnswers = 0;
     exam.questions.forEach((question) => {
@@ -97,6 +109,7 @@ export const TakeExam = () => {
       <div className="container-fluid py-5" style={{ backgroundColor: '#f0f0f0', minHeight: '100vh' }}>
         <div className="container bg-white p-5 rounded shadow-lg">
           <h1 className="text-center mb-5">Exam Name: <span className="fw-bold">{exam.name}</span></h1>
+          <h3 className="text-center mb-4">Time Left: {Math.floor(timeLeft / 60)}:{timeLeft % 60 < 10 ? `0${timeLeft % 60}` : timeLeft % 60}</h3>
           <form onSubmit={handleSubmit} className="take-exam-form">
             {exam.questions.map((question) => (
               <div key={question._id} className="question mb-4">
@@ -136,3 +149,5 @@ export const TakeExam = () => {
     </div>
   );
 };
+
+

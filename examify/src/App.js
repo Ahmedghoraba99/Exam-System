@@ -7,6 +7,7 @@ import { Register } from './components/register';
 import { TakeExam } from './components/TakeExam';
 import {Results} from './components/Results';
 import { Home } from './components/Home';
+import {Logout} from './components/Logout';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path="/exams/:examId" element={<TakeExam />} />
         <Route path="/results/" element={<Results />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/logout" element={<Logout />} />
       </Routes>
     </Router>
   );

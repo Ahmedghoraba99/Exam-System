@@ -6,6 +6,8 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
+import { useSelector } from "react-redux"; 
+import { selectUserRole } from "./store/slices/authSlice"; 
 import { ExamList } from "./components/ExamList";
 import { Login } from "./components/Login";
 import { Register } from "./components/register";
@@ -19,24 +21,30 @@ import { DashboardExams } from "./components/dashboard/DashboardExams";
 import { DashboardResults } from "./components/dashboard/DashboardResults";
 import { DashboardQuestions } from "./components/dashboard/DashboardQuestions";
 import { DashboardUsers } from "./components/dashboard/DashboardUsers";
+import ProtectedRoute from "./components/ProtectedRoute"; 
 
 function App() {
+  const userRole = useSelector(selectUserRole);
+  console.log('UserRole from Redux:', userRole); 
+  
   return (
     <Router>
       <Routes>
-        <Route path="/dashboard" element={<Dashboard />}>
-          <Route index element={<DashboardUsers />} />
-          <Route path="/dashboard/users" element={<DashboardUsers />} />
-          <Route path="/dashboard/exams" element={<DashboardExams />} />
-          <Route path="/dashboard/questions" element={<DashboardQuestions />} />
-          <Route path="/dashboard/results" element={<DashboardResults />} />
-        </Route>
+        {userRole === 'admin' && (
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}>
+            <Route index element={<DashboardUsers />} />
+            <Route path="/dashboard/users" element={<DashboardUsers />} />
+            <Route path="/dashboard/exams" element={<DashboardExams />} />
+            <Route path="/dashboard/questions" element={<DashboardQuestions />} />
+            <Route path="/dashboard/results" element={<DashboardResults />} />
+          </Route>
+        )}
 
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<Register />} />
 
-        <Route element={<Layouts />}>
+        <Route element={<ProtectedRoute><Layouts /></ProtectedRoute>}>
           <Route path="/exams" element={<ExamList />} />
           <Route path="/exams/:examId" element={<TakeExam />} />
           <Route path="/results" element={<Results />} />

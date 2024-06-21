@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../store/slices/authSlice'; 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/login.css';
 
 export function Login() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const loading = useSelector((state) => state.auth.loading);
   const error = useSelector((state) => state.auth.error);
 
@@ -13,10 +14,11 @@ export function Login() {
   const [password, setPassword] = useState('');
 
   const handleLogin = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form submission
+
     try {
       await dispatch(login({ email, password }));
-      window.location.href = '/home'; 
+      navigate('/home');
     } catch (err) {
       console.error('Login error:', err);
     }
@@ -28,7 +30,7 @@ export function Login() {
         <h1 className="h3 mb-3 text-center">Please sign in</h1>
 
         {/* Error message */}
-        {error && <div className="alert alert-danger">{error}</div>}
+        {error && <div className="alert alert-danger">{error.message}</div>}
 
         <div className="auth-switcher m-5 mx-auto">
           <Link to="/login" className="switch-button switch-button-active text-light">Login</Link>

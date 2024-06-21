@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client'; // Updated import for React 18
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -8,11 +8,12 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import store from './store/store'; // Import your Redux store configuration
 import { Provider } from 'react-redux'; // Import Provider from react-redux
 
-ReactDOM.render(
+// Updated code for React 18
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
   <Provider store={store}>
     <App />
-  </Provider>,
-  document.getElementById('root')
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

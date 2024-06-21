@@ -8,20 +8,24 @@ import { TakeExam } from './components/TakeExam';
 import {Results} from './components/Results';
 import { Home } from './components/Home';
 import {Logout} from './components/Logout';
-
+import { Layouts } from './components/Layouts';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/exams" element={<ExamList />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register/>} />
-        <Route path="/exams/:examId" element={<TakeExam />} />
-        <Route path="/results/" element={<Results />} />
-        <Route path="/home" element={<Home />} />
         <Route path="/logout" element={<Logout />} />
-        <Route path="/" element={<Navigate to="/home" replace />} />
+        <Route path="/register" element={<Register />} />
+
+        <Route element={<Layouts />}>
+          <Route path="/exams" element={<ExamList />} />
+          <Route path="/exams/:examId" element={<TakeExam />} />
+          <Route path="/results" element={<Results />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Navigate to="/login" replace />} />
+        </Route>
+
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </Router>

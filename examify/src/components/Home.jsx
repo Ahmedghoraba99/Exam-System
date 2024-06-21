@@ -12,7 +12,7 @@ export const Home = () => {
   useEffect(() => {
     const userId = localStorage.getItem('id'); 
     if (!userId) {
-      setError('User ID not found in local storage.');
+      navigate('/login');
       setLoading(false);
       return;
     }

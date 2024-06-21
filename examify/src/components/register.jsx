@@ -13,7 +13,7 @@ export function Register() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate(); 
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -41,7 +41,7 @@ export function Register() {
 
       setTimeout(() => {
         navigate('/login'); // Redirect to the login page after a short delay
-      }, 2000);
+      },1000);
 
     } catch (err) {
       console.error('Registration error:', err);

@@ -119,6 +119,7 @@ export const TakeExam = () => {
                 <h3 className="h3">{question.question}</h3>
                 <input
                   type="text"
+                  required
                   className="form-control mt-3"
                   placeholder="Enter your answer here..."
                   value={answers[question._id] || ''}
@@ -127,7 +128,7 @@ export const TakeExam = () => {
                 <div className="card mt-3 invisible">
                   <div className="card-body">
                     <h5 className="card-title">Answer</h5>
-                    <p className="card-text">{question.answer}</p>
+                    <p className="card-text" required>{question.answer}</p>
                   </div>
                 </div>
               </div>

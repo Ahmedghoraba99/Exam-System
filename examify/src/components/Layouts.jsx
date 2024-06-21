@@ -1,12 +1,12 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, Link } from 'react-router-dom';
 
 export function Layouts() {
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">
+        <Link className="navbar-brand" to="/home">
             <img
               src="./logo.png"
               alt=""
@@ -15,7 +15,7 @@ export function Layouts() {
               className="d-inline-block align-text-top"
             />
             Examify
-          </a>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"

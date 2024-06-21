@@ -1,6 +1,7 @@
 /* examList.css */
 
-body, html {
+body,
+html {
   height: 100%;
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
@@ -44,9 +45,10 @@ body, html {
   color: #0056b3;
 }
 
-.loading, .error {
+.loading,
+.error {
   text-align: center;
-  margin-top: 20px;
+  /* margin-top: 20px; */
   font-size: 18px;
   color: #333;
 }

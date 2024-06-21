@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchExamById, submitExam, examsSelectors } from '../store/slices/examSlice'; // Import Redux actions and selectors
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import { useNavigate } from 'react-router-dom';
 
 export const TakeExam = () => {
   const { examId } = useParams();
@@ -21,6 +22,7 @@ export const TakeExam = () => {
   const [timerActive, setTimerActive] = useState(false);
   const [userId, setUserId] = useState(null); 
   const [examLoaded, setExamLoaded] = useState(false); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchExamById(examId));
@@ -99,7 +101,7 @@ export const TakeExam = () => {
 
   if (loading) return <div>Loading...</div>;
 
-  if (error) return <div>{error}</div>; 
+  if (error) return navigate('/login');
 
   if (!examLoaded) {
     return <div>No questions found for this exam.</div>; 

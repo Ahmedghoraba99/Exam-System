@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import {ExamList} from './components/ExamList';
 import { Login } from './components/Login';
 import { Register } from './components/register';
@@ -21,6 +21,8 @@ function App() {
         <Route path="/results/" element={<Results />} />
         <Route path="/home" element={<Home />} />
         <Route path="/logout" element={<Logout />} />
+        <Route path="/" element={<Navigate to="/home" replace />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </Router>
   );

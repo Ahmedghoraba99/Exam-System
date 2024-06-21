@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../api/axios'; 
+import { useNavigate } from 'react-router-dom';
 
 
 export const Home = () => {
   const [userName, setUserName] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const userId = localStorage.getItem('id'); 
@@ -23,7 +25,7 @@ export const Home = () => {
         setLoading(false);
       } catch (err) {
         console.error('Error fetching user data:', err);
-        setError('Failed to fetch user data. Please try again later.');
+        navigate('/login');
         setLoading(false);
       }
     };

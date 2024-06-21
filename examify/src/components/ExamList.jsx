@@ -5,19 +5,21 @@ import { fetchExams, examsSelectors } from '../store/slices/examSlice';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import '../styles/exams.css';
+import { useNavigate } from 'react-router-dom';
 
 export const ExamList = () => {
   const dispatch = useDispatch();
   const exams = useSelector(examsSelectors.selectAllExams);
   const loading = useSelector(examsSelectors.selectExamsLoading);
   const error = useSelector(examsSelectors.selectExamsError);
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchExams());
   }, [dispatch]);
 
   if (loading) return <div className="loading">Loading...</div>;
-  if (error) return <div className="error">{error}</div>;
+  if (error) return navigate('/login');
 
   return (
     <div className="container exam-list-container">

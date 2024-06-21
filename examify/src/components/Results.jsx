@@ -4,19 +4,21 @@ import { fetchUserResults, resultsSelectors } from '../store/slices/resultSlice.
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import '../styles/results.css';
+import { useNavigate } from 'react-router-dom';
 
 export function Results() {
   const dispatch = useDispatch();
   const results = useSelector(resultsSelectors.selectAllResults);
   const loading = useSelector(resultsSelectors.selectResultsLoading);
   const error = useSelector(resultsSelectors.selectResultsError);
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchUserResults(localStorage.getItem('id')));
   }, [dispatch]);
 
   if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  if (error) return navigate('/login');
 
   if (results.length === 0) {
     return <div>No results found for this user.</div>;

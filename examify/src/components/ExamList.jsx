@@ -1,31 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import axiosInstance from '../api/axios';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { fetchExams, examsSelectors } from '../store/slices/examSlice';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import '../styles/exams.css'; 
+import '../styles/exams.css';
 
-export function ExamList() {
-  const [exams, setExams] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+export const ExamList = () => {
+  const dispatch = useDispatch();
+  const exams = useSelector(examsSelectors.selectAllExams);
+  const loading = useSelector(examsSelectors.selectExamsLoading);
+  const error = useSelector(examsSelectors.selectExamsError);
 
   useEffect(() => {
-    const fetchExams = async () => {
-      try {
-        const response = await axiosInstance.get('/exams');
-        console.log('Response:', response.data);
-        setExams(response.data);
-        setLoading(false);
-      } catch (err) {
-        console.error('Error fetching exams:', err);
-        setError('Failed to fetch exams. Please try again later.');
-        setLoading(false);
-      }
-    };
-
-    fetchExams();
-  }, []);
+    dispatch(fetchExams());
+  }, [dispatch]);
 
   if (loading) return <div className="loading">Loading...</div>;
   if (error) return <div className="error">{error}</div>;
@@ -49,4 +38,6 @@ export function ExamList() {
       </div>
     </div>
   );
-}
+};
+
+ 

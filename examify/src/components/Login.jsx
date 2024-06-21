@@ -1,40 +1,24 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../store/slices/authSlice'; 
 import { Link } from 'react-router-dom';
 import '../styles/login.css';
 
 export function Login() {
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.auth.loading);
+  const error = useSelector((state) => state.auth.error);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
-
     try {
-      const response = await axios.post('http://localhost:8080/login', {
-        email,
-        password,
-      });
-
-      console.log('Login successful:', response.data); 
-
-      // Save token to local storage
-      localStorage.setItem('token', response.data.token); 
-      localStorage.setItem('id', response.data.userId); 
-      console.log(response.data.userId);
-
-      // Redirect to another page or update state to indicate successful login
-      setLoading(false);
+      await dispatch(login({ email, password }));
       window.location.href = '/home'; 
-
     } catch (err) {
       console.error('Login error:', err);
-      setError('Invalid username or password');
-      setLoading(false);
     }
   };
 
@@ -81,7 +65,9 @@ export function Login() {
         <button type="submit" className="btn btn-primary m-3" disabled={loading}>
           {loading ? 'Logging in...' : 'Login'}
         </button>
-        <button type="reset" className="btn btn-danger m-3">Reset</button>
+        <button type="reset" className="btn btn-danger m-3">
+          Reset
+        </button>
       </form>
     </div>
   );

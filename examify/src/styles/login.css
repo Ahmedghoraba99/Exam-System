@@ -1,5 +1,5 @@
 body {
-  display: flex;
+  /* display: flex; */
   justify-content: center;
   align-items: center;
   height: 100vh;
@@ -8,7 +8,7 @@ body {
 }
 
 .container {
-  max-width: 600px;
+  /* max-width: 600px; */
   box-shadow: 0 0 120px rgba(9, 128, 231, 0.1); /* Adding box shadow */
   border: 2px solid #5e90c275;
 }

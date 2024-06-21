@@ -1,36 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axiosInstance from '../api/axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchExamById, submitExam, examsSelectors } from '../store/slices/examSlice'; // Import Redux actions and selectors
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 export const TakeExam = () => {
   const { examId } = useParams();
+  const dispatch = useDispatch();
 
-  const [exam, setExam] = useState(null);
+  const exam = useSelector(examsSelectors.selectExamById(examId));
+  const loading = useSelector(examsSelectors.selectExamsLoading);
+  const error = useSelector(examsSelectors.selectExamsError);
+  const submitted = useSelector(examsSelectors.selectExamSubmitted);
+
+
   const [answers, setAnswers] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [score, setScore] = useState(null);
-  const [userId, setUserId] = useState(null);
-  const [submitted, setSubmitted] = useState(false); 
-  const [timeLeft, setTimeLeft] = useState(3600); 
+  const [timeLeft, setTimeLeft] = useState(3600);
   const [timerActive, setTimerActive] = useState(false);
+  const [userId, setUserId] = useState(null); 
+  const [examLoaded, setExamLoaded] = useState(false); 
 
   useEffect(() => {
-    const fetchExam = async () => {
-      try {
-        const response = await axiosInstance.get(`/exams/${examId}`);
-        setExam(response.data);
-        setLoading(false);
-        setTimerActive(true); 
-      } catch (err) {
-        console.error('Error fetching exam:', err);
-        setError('Failed to fetch exam. Please try again later.');
-        setLoading(false);
-      }
-    };
-
-    fetchExam();
-  }, [examId]);
+    dispatch(fetchExamById(examId));
+    setTimerActive(true); 
+  }, [dispatch, examId]);
 
   useEffect(() => {
     const storedUserId = localStorage.getItem('id');
@@ -38,6 +33,12 @@ export const TakeExam = () => {
       setUserId(storedUserId);
     }
   }, []);
+
+  useEffect(() => {
+    if (exam && exam.questions && exam.questions.length > 0) {
+      setExamLoaded(true); 
+    }
+  }, [exam]);
 
   useEffect(() => {
     if (timerActive && timeLeft > 0) {
@@ -63,28 +64,28 @@ export const TakeExam = () => {
   };
 
   const handleSubmit = async (e) => {
-    if (e) e.preventDefault();
+    e.preventDefault();
     try {
-      const userScore = calculateScore();
-      setScore(userScore);
-
+      const userScore = calculateScore(); 
+      setScore(userScore); 
+  
+      // Prepare data for submission
       const resultData = {
-        user: userId,
-        exam: examId,
-        score: userScore,
+        userId: userId,
+        examId: examId,
+        answers: answers,
+        score: userScore, 
       };
-
-      const response = await axiosInstance.post('/results/submit', resultData);
-      console.log('Exam submitted:', response.data);
-
-      setSubmitted(true);
+  
+      await dispatch(submitExam(resultData));
+  
       setTimerActive(false); 
     } catch (err) {
       console.error('Error submitting exam:', err);
-      setError('Failed to submit exam. Please try again later.');
     }
   };
-
+  
+  
   const calculateScore = () => {
     let correctAnswers = 0;
     exam.questions.forEach((question) => {
@@ -98,10 +99,10 @@ export const TakeExam = () => {
 
   if (loading) return <div>Loading...</div>;
 
-  if (error) return <div>{error}</div>;
+  if (error) return <div>{error}</div>; 
 
-  if (!exam || !exam.questions || exam.questions.length === 0) {
-    return <div>No questions found for this exam.</div>;
+  if (!examLoaded) {
+    return <div>No questions found for this exam.</div>; 
   }
 
   if (!submitted) {
@@ -150,4 +151,4 @@ export const TakeExam = () => {
   );
 };
 
-
+export default TakeExam;

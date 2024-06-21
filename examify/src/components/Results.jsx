@@ -1,34 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import axiosInstance from '../api/axios'; 
-import '../styles/results.css'; 
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchUserResults, resultsSelectors } from '../store/slices/resultSlice.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import '../styles/results.css';
 
 export function Results() {
-  const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const results = useSelector(resultsSelectors.selectAllResults);
+  const loading = useSelector(resultsSelectors.selectResultsLoading);
+  const error = useSelector(resultsSelectors.selectResultsError);
 
   useEffect(() => {
-    const userId = localStorage.getItem('id'); 
-    if (!userId) {
-      setError('User ID not found in local storage.');
-      setLoading(false);
-      return;
-    }
-
-    const fetchResults = async () => {
-      try {
-        const response = await axiosInstance.get(`/results/user/${userId}`);
-        setResults(response.data);
-        setLoading(false);
-      } catch (err) {
-        console.error('Error fetching results:', err);
-        setError('Failed to fetch results. Please try again later.');
-        setLoading(false);
-      }
-    };
-
-    fetchResults();
-  }, []); 
+    dispatch(fetchUserResults(localStorage.getItem('id')));
+  }, [dispatch]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;

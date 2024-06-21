@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import axiosInstance from '../api/axios'; 
-import { useNavigate } from 'react-router-dom';
-
+import React, { useState, useEffect } from "react";
+import axiosInstance from "../api/axios";
+import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
-  const [userName, setUserName] = useState('');
+  const [userName, setUserName] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userId = localStorage.getItem('id'); 
+    const userId = localStorage.getItem("id");
     if (!userId) {
-      setError('User ID not found in local storage.');
+      setError("User ID not found in local storage.");
       setLoading(false);
       return;
     }
@@ -20,12 +19,12 @@ export const Home = () => {
     const fetchUserData = async () => {
       try {
         const response = await axiosInstance.get(`/users/${userId}`);
-        setUserName(response.data.user.name); 
+        setUserName(response.data.user.name);
         // console.log(response.data.user.name);
         setLoading(false);
       } catch (err) {
-        console.error('Error fetching user data:', err);
-        navigate('/login');
+        console.error("Error fetching user data:", err);
+        navigate("/login");
         setLoading(false);
       }
     };
@@ -38,7 +37,7 @@ export const Home = () => {
 
   return (
     <div>
-      <div className="container">
+      <div className="container p-5" style={{ maxWidth: "800px" }}>
         <h1 className="text-center m-5">
           Welcome to Examify, <span id="userName">{userName}</span>!
         </h1>

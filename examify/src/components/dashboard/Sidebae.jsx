@@ -17,7 +17,7 @@ function Sidebar() {
 
   return (
     <div
-      className="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
+      className="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark position-sticky left-0 top-0"
       style={{ width: "280px", height: "100vh" }}
     >
       <a

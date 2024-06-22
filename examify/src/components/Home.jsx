@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../api/axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Home = () => {
   const [userName, setUserName] = useState("");
@@ -51,13 +51,13 @@ export const Home = () => {
                   Test and develop your skills with a set of skillfully crafted
                   Exams
                 </p>
-                <a href="/exams" className="p-3">
+                <Link to="/exams">
                   <img
                     className="d-block mx-auto w-75 home-img"
                     src="./test.gif"
                     alt=""
                   />
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -69,13 +69,13 @@ export const Home = () => {
                 <p className="card-text">
                   View your result over time and track your progress
                 </p>
-                <a href="/results" className="p-3">
+                <Link to="/results">
                   <img
                     className="d-block mx-auto w-75 home-img"
                     src="./student.gif"
                     alt=""
                   />
-                </a>
+                </Link>
               </div>
             </div>
           </div>

@@ -20,7 +20,12 @@ export function Login() {
       await dispatch(login({ email, password }));
       const role = localStorage.getItem("role");
       console.log(role);
-      role === "user" ? navigate("/home") : navigate("/dashboard");
+      if (role === "admin") {
+        navigate("/dashboard");
+        // window.location.href = "/dashboard";
+      } else {
+        navigate("/home");
+      }
     } catch (err) {
       console.error("Login error:", err);
     }

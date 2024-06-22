@@ -1,22 +1,26 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState = {
   user: null,
-  token: localStorage.getItem('token'),
+  token: localStorage.getItem("token"),
   role: null,
   loading: false,
   error: null,
 };
 
 export const login = createAsyncThunk(
-  'auth/login',
+  "auth/login",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await axios.post('http://localhost:8080/login', { email, password });
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('id', response.data.userId);
-      localStorage.setItem('role', response.data.role);
+      const response = await axios.post("http://localhost:8080/login", {
+        email,
+        password,
+      });
+      localStorage.clear();
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("id", response.data.userId);
+      localStorage.setItem("role", response.data.role);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -25,12 +29,12 @@ export const login = createAsyncThunk(
 );
 
 export const logout = createAsyncThunk(
-  'auth/logout',
+  "auth/logout",
   async (_, { rejectWithValue }) => {
     try {
-      localStorage.removeItem('token');
-      localStorage.removeItem('id');
-      localStorage.removeItem('role');
+      localStorage.removeItem("token");
+      localStorage.removeItem("id");
+      localStorage.removeItem("role");
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -38,7 +42,7 @@ export const logout = createAsyncThunk(
 );
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -48,15 +52,15 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(login.fulfilled, (state, action) => {
-        console.log('Fulfilled payload:', action.payload); 
+        console.log("Fulfilled payload:", action.payload);
         state.loading = false;
         state.token = action.payload.token;
         state.user = action.payload.userId;
-        state.role = action.payload.role; 
+        state.role = action.payload.role;
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Login failed. Please try again.';
+        state.error = action.payload || "Login failed. Please try again.";
       })
       .addCase(logout.pending, (state) => {
         state.loading = true;
@@ -70,7 +74,7 @@ const authSlice = createSlice({
       })
       .addCase(logout.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Logout failed. Please try again.';
+        state.error = action.payload || "Logout failed. Please try again.";
       });
   },
 });

@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { logout } from '../store/slices/authSlice'; 
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { logout } from "../store/slices/authSlice";
+import { useNavigate } from "react-router-dom";
 
 export const Logout = () => {
   const dispatch = useDispatch();
@@ -10,10 +10,12 @@ export const Logout = () => {
   useEffect(() => {
     const handleLogout = async () => {
       try {
-        await dispatch(logout()); 
-        navigate('/login');
+        await dispatch(logout());
+        localStorage.clear();
+        navigate("/login");
+        // window.location.href = "/login";
       } catch (err) {
-        console.error('Error logging out:', err);
+        console.error("Error logging out:", err);
       }
     };
 

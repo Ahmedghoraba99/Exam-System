@@ -33,8 +33,8 @@ export const ExamList = () => {
       </div>
       <h1 className="exam-list-title text-center">Available Exams</h1>
       <div className="row">
-        {exams.map((exam) => (
-          <div key={exam._id} className="col-md-6 mb-4">
+        {exams.map((exam, index) => (
+          <div key={exam._id || index} className="col-md-6 mb-4">
             <div className="exam-item list-group-item">
               <Link to={`/exams/${exam._id}`} className="exam-link">
                 {exam.name}

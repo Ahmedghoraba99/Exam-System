@@ -3,27 +3,56 @@ import axiosInstance from '../../api/axios';
 import { createSelector } from '@reduxjs/toolkit';
 
 
-export const fetchExams = createAsyncThunk('exams/fetchExams', async () => {
-  const response = await axiosInstance.get('/exams');
-  return response.data;
-});
+export const fetchExams = createAsyncThunk(
+  'exams/fetchExams',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get('/exams');
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
 
-export const fetchExamById = createAsyncThunk('exams/fetchExamById', async (examId) => {
-  const response = await axiosInstance.get(`/exams/${examId}`);
-  return response.data;
-});
+export const fetchExamById = createAsyncThunk(
+  'exams/fetchExamById',
+  async (examId, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get(`/exams/${examId}`);
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
 
-export const submitExam = createAsyncThunk('exams/submitExam', async ({ userId, examId, score }) => {
+export const submitExam = createAsyncThunk(
+  'exams/submitExam',
+  async ({ userId, examId, score }, { rejectWithValue }) => {
     console.log('Submitting exam with:', { userId, examId, score });
-  
+
     try {
       const response = await axiosInstance.post('/results/submit', { user: userId, exam: examId, score });
       return response.data;
     } catch (error) {
       console.error('Error submitting exam:', error);
-      throw error; 
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
     }
-  });
+  }
+);
   
 
 // Initial state for exams slice

@@ -3,9 +3,18 @@ import axiosInstance from '../../api/axios';
 
 export const fetchUserResults = createAsyncThunk(
   'results/fetchUserResults',
-  async (userId) => {
-    const response = await axiosInstance.get(`/results/user/${userId}`);
-    return response.data;
+  async (userId, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get(`/results/user/${userId}`);
+      return response.data;
+    } catch (error) {
+      // Check if the error response exists and has data
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
   }
 );
 

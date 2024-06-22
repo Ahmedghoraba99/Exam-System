@@ -1,22 +1,22 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-
-export function DashboardUsers () {
+export function DashboardUsers() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/users', {
+        const response = await axios.get("http://localhost:8080/users", {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
-        setUsers(response.data.users);
+        let users = response.data.users.filter((user) => user.role !== "admin");
+        setUsers(users);
       } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error("Error fetching users:", error);
       }
     };
 
@@ -34,7 +34,7 @@ export function DashboardUsers () {
           </tr>
         </thead>
         <tbody>
-          {users.map(user => (
+          {users.map((user) => (
             <tr key={user._id}>
               <td>{user.email}</td>
               <td>{user.name}</td>
@@ -44,5 +44,4 @@ export function DashboardUsers () {
       </table>
     </div>
   );
-};
-
+}

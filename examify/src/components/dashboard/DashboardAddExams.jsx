@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-export function DashboardExams() {
+export function DashboardAddExams() {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [questions, setQuestions] = useState([]);

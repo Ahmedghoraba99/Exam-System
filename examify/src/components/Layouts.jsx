@@ -1,12 +1,14 @@
-import React from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import React from "react";
+import { Outlet, Link, useNavigate } from "react-router-dom";
 
 export function Layouts() {
+  const navigate = useNavigate();
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
-        <Link className="navbar-brand" to="/home">
+          <Link className="navbar-brand" to="/home">
             <img
               src="./logo.png"
               alt=""
@@ -32,7 +34,7 @@ export function Layouts() {
             <span className="navbar-text">
               <button
                 className="btn btn-danger fw-bold"
-                onClick={() => (window.location.href = '/logout')}
+                onClick={() => navigate("/logout")}
               >
                 Logout
               </button>
@@ -41,9 +43,8 @@ export function Layouts() {
         </div>
       </nav>
       <div>
-      <Outlet />
+        <Outlet />
       </div>
-      
     </div>
   );
 }

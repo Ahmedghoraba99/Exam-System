@@ -6,8 +6,8 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import { useSelector } from "react-redux"; 
-import { selectUserRole } from "./store/slices/authSlice"; 
+import { useSelector } from "react-redux";
+import { selectUserRole } from "./store/slices/authSlice";
 import { ExamList } from "./components/ExamList";
 import { Login } from "./components/Login";
 import { Register } from "./components/register";
@@ -17,25 +17,39 @@ import { Home } from "./components/Home";
 import { Logout } from "./components/Logout";
 import { Layouts } from "./components/Layouts";
 import { Dashboard } from "./layouts/Dashboard";
-import { DashboardExams } from "./components/dashboard/DashboardExams";
+import { DashboardAddExams } from "./components/dashboard/DashboardAddExams";
 import { DashboardResults } from "./components/dashboard/DashboardResults";
-import { DashboardQuestions } from "./components/dashboard/DashboardQuestions";
+import { DashboardAddQuestions } from "./components/dashboard/DashboardAddQuestions";
 import { DashboardUsers } from "./components/dashboard/DashboardUsers";
-import ProtectedRoute from "./components/ProtectedRoute"; 
+import { DashboardExamTable } from "./components/dashboard/DashboardExamTable";
+import { DashboardQuestionTable } from "./components/dashboard/DashboardQuestionTable";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-  const userRole = useSelector(selectUserRole);
-  console.log('UserRole from Redux:', userRole); 
-  
+  // const userRole = useSelector(selectUserRole);
+  const role = localStorage.getItem("role");
+  console.log("UserRole from Redux:", role);
+
   return (
     <Router>
       <Routes>
-        {userRole === 'admin' && (
-          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}>
+        {role === "admin" && (
+          <Route path="/dashboard" element={<Dashboard />}>
             <Route index element={<DashboardUsers />} />
             <Route path="/dashboard/users" element={<DashboardUsers />} />
-            <Route path="/dashboard/exams" element={<DashboardExams />} />
-            <Route path="/dashboard/questions" element={<DashboardQuestions />} />
+            <Route path="/dashboard/exams" element={<DashboardAddExams />} />
+            <Route
+              path="/dashboard/questionTable"
+              element={<DashboardQuestionTable />}
+            />
+            <Route
+              path="/dashboard/examsTable"
+              element={<DashboardExamTable />}
+            />
+            <Route
+              path="/dashboard/questions"
+              element={<DashboardAddQuestions />}
+            />
             <Route path="/dashboard/results" element={<DashboardResults />} />
           </Route>
         )}
@@ -44,7 +58,13 @@ function App() {
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<Register />} />
 
-        <Route element={<ProtectedRoute><Layouts /></ProtectedRoute>}>
+        <Route
+          element={
+            // <ProtectedRoute>
+            <Layouts />
+            // </ProtectedRoute>
+          }
+        >
           <Route path="/exams" element={<ExamList />} />
           <Route path="/exams/:examId" element={<TakeExam />} />
           <Route path="/results" element={<Results />} />

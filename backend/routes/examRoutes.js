@@ -155,4 +155,6 @@ router.delete(
  */
 router.post("/:examId/questions/:questionId", examController.addQuestionToExam);
 
+router.delete("/:id", examController.deleteExam);
+
 module.exports = router;

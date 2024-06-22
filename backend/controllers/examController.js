@@ -77,3 +77,14 @@ exports.addQuestionToExam = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+exports.deleteExam = async (req, res) => {
+  try {
+    const id = req.params.id;
+    await Exam.findByIdAndDelete(id);
+    res.status(200).json({ message: "Exam deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

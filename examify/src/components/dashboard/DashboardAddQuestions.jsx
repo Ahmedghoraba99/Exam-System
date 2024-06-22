@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export function DashboardQuestions() {
+export function DashboardAddQuestions() {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [message, setMessage] = useState("");
